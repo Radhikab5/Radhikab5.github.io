@@ -1,9 +1,421 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <title>My Site</title>
-    </head>
-    <body>
-        This is my githud pages
-    </body>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Quake Quest | Family Earthquake Learning</title>
+  <meta name="description" content="Quake Quest helps parents and 1st graders in Los Angeles understand earthquakes, stay prepared, and learn safety together." />
+  <style>
+    body {
+      font-family: "Poppins", sans-serif;
+      background-color: #f9fcff;
+      margin: 0;
+      color: #333;
+      overflow-x: hidden;
+      scroll-behavior: smooth;
+    }
+
+    header {
+      background: linear-gradient(135deg, #006994, #1abc9c);
+      color: white;
+      text-align: center;
+      padding: 2em 1em 1em;
+      position: relative;
+    }
+
+    header img.logo {
+      width: 120px;
+      display: block;
+      margin: 0 auto 1em;
+      border-radius: 10px;
+      background-color: white;
+      padding: 0.5em;
+      animation: shake 4s infinite ease-in-out;
+    }
+
+    @keyframes shake {
+      0%, 100% { transform: rotate(0deg); }
+      20% { transform: rotate(2deg); }
+      40% { transform: rotate(-2deg); }
+      60% { transform: rotate(1deg); }
+      80% { transform: rotate(-1deg); }
+    }
+
+    header h1 {
+      margin: 0; 	
+      font-size: 2.5em;
+      letter-spacing: 1px;
+    }
+
+    nav {
+      background-color: rgba(0, 105, 148, 0.95);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 1em 0.5em;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+      transition: all 0.4s ease;
+    }
+
+    nav.scrolled {
+      background-color: rgba(0, 56, 80, 0.98);
+      padding: 0.5em 0.5em;
+      box-shadow: 0 3px 12px rgba(0,0,0,0.25);
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      margin: 0 0.8em;
+      font-weight: 500;
+      transition: color 0.3s ease, transform 0.3s ease;
+      padding-bottom: 4px;
+    }
+
+    nav a.active {
+      color: #1abc9c;
+      border-bottom: 2px solid #1abc9c;
+    }
+
+    nav a:hover,
+    nav a:focus {
+      color: #1abc9c;
+      transform: scale(1.05);
+      text-decoration: underline;
+    }
+
+    main {
+      max-width: 1000px;
+      margin: 2em auto;
+      padding: 0 1em;
+      line-height: 1.6;
+    }
+
+    section {
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+      margin-bottom: 2.5em;
+      padding: 1.8em;
+      opacity: 1;
+      transform: translateY(0);
+      transition: opacity 0.8s ease-in-out, transform 0.8s ease-in-out;
+    }
+
+    h2 {
+      color: #006994;
+      border-left: 6px solid #1abc9c;
+      padding-left: 0.5em;
+      margin-bottom: 0.5em;
+    }
+
+    .image {
+      display: block;
+      margin: 1em auto;
+      max-width: 100%;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+
+    .alert {
+      background: #eafaf1;
+      border-left: 5px solid #27ae60;
+      padding: 1em;
+      margin-top: 1em;
+      border-radius: 5px;
+    }
+
+    #quiz {
+      background: #f0f9ff;
+      padding: 1em;
+      border-radius: 8px;
+    }
+
+    .question {
+      margin-bottom: 1.2em;
+      border-radius: 6px;
+      padding: 0.6em;
+      transition: background-color 0.4s ease;
+    }
+
+    input[type="radio"] {
+      margin-right: 0.5em;
+    }
+
+    button {
+      background-color: #1abc9c;
+      color: white;
+      border: none;
+      padding: 0.8em 1.5em;
+      font-size: 1em;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-top: 1em;
+      transition: background-color 0.3s ease, transform 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #159a80;
+      transform: scale(1.05);
+    }
+
+    #result {
+      font-weight: bold;
+      color: #2c3e50;
+      margin-top: 1em;
+    }
+
+    footer {
+      background: #2c3e50;
+      color: white;
+      text-align: center;
+      padding: 1em;
+      margin-top: 2em;
+      font-size: 0.9em;
+    }
+
+    #backToTop {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      background-color: #1abc9c;
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      font-size: 1.5em;
+      cursor: pointer;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.4s ease;
+    }
+
+    #backToTop:hover {
+      background-color: #159a80;
+      transform: scale(1.1);
+      box-shadow: 0 6px 12px rgba(0,0,0,0.3);
+    }
+
+    #backToTop.visible {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    canvas {
+      position: fixed;
+      pointer-events: none;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 9999;
+    }
+
+    video {
+      display: block;
+      margin: 1.5em auto;
+      max-width: 100%;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <img src="Screenshot 2025-10-30 194357.png" alt="Quake Quest logo" class="logo" />
+    <h1>Quake Quest</h1>
+    <p>A fun, safe, and smart way for LA families to learn about earthquakes. - By: Divya Meghana Dande</p>
+  </header>
+
+  <nav aria-label="Main navigation" id="navbar">
+    <a href="#what">What Is an Earthquake?</a>
+    <a href="#detect">How We Detect Earthquakes</a>
+    <a href="#scale">Earthquake Rating Scale</a>
+    <a href="#safety">Safety</a>
+    <a href="#alerts">Alerts</a>
+    <a href="#video">Video</a>
+    <a href="#quiz">Quiz</a>
+  </nav>
+
+  <main>
+    <section id="what"> 
+      <h2>What Is an Earthquake?</h2> 
+      <p>Deep under our feet, the Earth is made up of big puzzle pieces called <strong>tectonic plates</strong>. Sometimes, they bump or slide past each other and get stuck. When they suddenly slip — <em>boom!</em> — the ground shakes! That’s an <strong>earthquake</strong>.</p> 
+      <img class="image" src="What is an earthquake pic.png" alt="Seismograph and earthquake map"/> 
+      <p>Think of it like snapping your fingers — the plates “pop” back into place and send out shaking waves.</p> 
+    </section>
+
+    <section id="detect"> 
+      <h2>How Do We Detect Earthquakes?</h2> 
+      <p>Scientists use special tools called <strong>seismographs</strong>. These can feel even the tiniest movements underground and draw “wiggly lines” to show how strong the shaking is.</p> 
+      <img class="image" src="Screenshot 2025-10-30 194157.png" alt="Seismograph and earthquake map" /> 
+      <p>Earthquakes happen fast — usually too quickly to run — which is why early warnings and good practice are so important.</p> 
+    </section>
+
+    <section id="scale">
+      <h2>Understanding the Earthquake Rating Scale</h2>
+      <p>Earthquakes are measured on a special scale called the <strong>Richter scale</strong> or the <strong>Moment Magnitude scale (Mw)</strong>. These numbers tell us how powerful the shaking is.</p>
+      <ul>
+        <li>🔹 <strong>1–2:</strong> Tiny shakes — usually only seismographs can feel them.</li>
+        <li>🔹 <strong>3–4:</strong> Light shaking — might rattle windows or dishes.</li>
+        <li>🔹 <strong>5–6:</strong> Moderate — can crack walls or knock things over.</li>
+        <li>🔹 <strong>7–8:</strong> Major — causes serious damage in buildings.</li>
+        <li>🔹 <strong>9+:</strong> Massive — extremely rare, but can change landscapes.</li>
+      </ul>
+      <img class="image" src="Screenshot 2025-10-30 194213.png" alt="Earthquake magnitude or rating scale illustration" />
+      <p>The higher the number, the stronger the quake! Luckily, most earthquakes in Los Angeles are small.</p>
+    </section>
+
+    <section id="safety">
+      <h2>Preparation and Response</h2>
+      <p>In Los Angeles schools, kids learn what to do through a fun safety drill called <strong>“Drop, Cover, and Hold On.”</strong></p>
+      <ul>
+        <li>🧍‍♂️ <strong>Drop</strong> to your hands and knees to stay steady.</li>
+        <li>🪑 <strong>Cover</strong> your head and neck under a desk or table.</li>
+        <li>✋ <strong>Hold On</strong> until the shaking stops.</li>
+      </ul>
+      <img class="image" src="Screenshot 2025-10-31 180011.png" alt="Prep and Response" />
+      <div class="alert">💡 <strong>Parent Tip:</strong> Encourage your child to treat drills seriously — it helps them stay calm and ready during a real earthquake.</div>
+    </section>
+
+    <section id="alerts">
+      <h2>Warnings & Communication</h2>
+      <p>Parents in Los Angeles can receive early alerts from these helpful tools:</p>
+      <ul>
+        <li>📱 <strong>MyShake App</strong></li>
+        <li>📲 <strong>Android Earthquake Alerts</strong></li>
+        <li>📡 <strong>Wireless Emergency Alerts (WEA)</strong></li>
+      </ul>
+      <img class="image" src="Alert.png" alt="Alert" />
+      <p>These warnings can give your family a few extra seconds to <strong>stop, drop, and cover</strong> — just enough time to stay safe.</p>
+    </section>
+
+    <!-- ✅ New Video Section -->
+    <section id="video">
+      <h2>🎥 Earthquake Learning Video</h2>
+      <p>Watch this short video to see how earthquakes happen and how to stay safe during one.</p>
+      <video controls>
+        <source src="EarthquakeVideo.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
+    </section>
+
+    <section id="quiz">
+      <h2>🎯 Quake Quest Quiz</h2>
+      <p>Test your knowledge!</p>
+      <div class="question">
+        <p>1️⃣ What are tectonic plates?</p>
+        <label><input type="radio" name="q1" value="wrong"> Clouds in the sky</label><br>
+        <label><input type="radio" name="q1" value="correct"> Giant puzzle pieces of the Earth</label><br>
+        <label><input type="radio" name="q1" value="wrong"> Big rocks underground</label>
+      </div>
+
+      <div class="question">
+        <p>2️⃣ What should you do during an earthquake?</p>
+        <label><input type="radio" name="q2" value="wrong"> Run outside fast</label><br>
+        <label><input type="radio" name="q2" value="correct"> Drop, Cover, and Hold On</label><br>
+        <label><input type="radio" name="q2" value="wrong"> Jump up and down</label>
+      </div>
+
+      <div class="question">
+        <p>3️⃣ What does the Richter scale show?</p>
+        <label><input type="radio" name="q3" value="wrong"> How deep earthquakes happen</label><br>
+        <label><input type="radio" name="q3" value="correct"> The strength of an earthquake</label><br>
+        <label><input type="radio" name="q3" value="wrong"> The number of earthquakes in a day</label>
+      </div>
+
+      <div class="question">
+        <p>4️⃣ Which app can send earthquake alerts to parents?</p>
+        <label><input type="radio" name="q4" value="wrong"> Snapchat</label><br>
+        <label><input type="radio" name="q4" value="correct"> MyShake App</label><br>
+        <label><input type="radio" name="q4" value="wrong"> WeatherBug</label>
+      </div>
+
+      <button onclick="checkAnswers()">Check Answers</button>
+      <p id="result"></p>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 Quake Quest | Made for LA Families | Built by ChatGPT</p>
+  </footer>
+
+  <button id="backToTop" aria-label="Back to Top">↑</button>
+
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+  <script>
+    const navbar = document.getElementById("navbar");
+    const navLinks = document.querySelectorAll("nav a");
+    const backToTop = document.getElementById("backToTop");
+
+    window.addEventListener("scroll", () => {
+      if (window.scrollY > 50) navbar.classList.add("scrolled");
+      else navbar.classList.remove("scrolled");
+
+      let current = "";
+      document.querySelectorAll("section").forEach(section => {
+        const sectionTop = section.offsetTop - 80;
+        if (scrollY >= sectionTop) current = section.getAttribute("id");
+      });
+      navLinks.forEach(link => {
+        link.classList.remove("active");
+        if (link.getAttribute("href").includes(current)) link.classList.add("active");
+      });
+
+      if (window.scrollY > 300) backToTop.classList.add("visible");
+      else backToTop.classList.remove("visible");
+    });
+
+    backToTop.addEventListener("click", () => {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+
+    function checkAnswers() {
+      let correct = 0;
+      const questions = document.querySelectorAll(".question");
+      questions.forEach(q => {
+        const selected = q.querySelector("input[type='radio']:checked");
+        q.style.backgroundColor = "";
+        if (selected) {
+          if (selected.value === "correct") {
+            correct++;
+            q.style.backgroundColor = "#eafaf1";
+          } else {
+            q.style.backgroundColor = "#fdecea";
+          }
+        }
+      });
+
+      const result = document.getElementById("result");
+
+      if (correct === questions.length) {
+        result.textContent = `🎉 Perfect! You got all ${correct} correct!`;
+        const duration = 4000;
+        const end = Date.now() + duration;
+        const interval = setInterval(() => {
+          confetti({
+            particleCount: 5,
+            angle: 60,
+            spread: 55,
+            origin: { x: 0 },
+          });
+          confetti({
+            particleCount: 5,
+            angle: 120,
+            spread: 55,
+            origin: { x: 1 },
+          });
+          if (Date.now() > end) clearInterval(interval);
+        }, 250);
+      } else {
+        result.textContent = `You got ${correct} out of ${questions.length}. Try again!`;
+      }
+    }
+  </script>
+</body>
 </html>
